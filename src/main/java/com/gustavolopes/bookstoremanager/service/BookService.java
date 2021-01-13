@@ -1,11 +1,12 @@
 package com.gustavolopes.bookstoremanager.service;
 
+import com.gustavolopes.bookstoremanager.dto.BookDTO;
 import com.gustavolopes.bookstoremanager.dto.MessageResponseDTO;
 import com.gustavolopes.bookstoremanager.entity.Book;
+import com.gustavolopes.bookstoremanager.mapper.BookMapper;
 import com.gustavolopes.bookstoremanager.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class BookService {
@@ -17,8 +18,8 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public MessageResponseDTO create(Book book) {
-        Book savedBook = bookRepository.save(book);
+    public MessageResponseDTO create(BookDTO bookDTO) {
+        Book savedBook = bookRepository.save(BookMapper.INSTANCE.toModel(bookDTO));
         return MessageResponseDTO.builder()
                 .message("Book created with ID " + savedBook.getId())
                 .build();
